@@ -121,6 +121,7 @@ if __name__ == '__main__':
     rev_num = []
     for line in data:
         if ("2 " + str(sat.model.satnum)) in line:
+            rev_int = int(line[63:68])
             rev_num.append(int(line[63:68]))
 
     #orbital period
@@ -149,22 +150,25 @@ if __name__ == '__main__':
     ss_lat = subpoint.latitude.degrees
     ss_lon = subpoint.longitude.degrees
 
-    #detect equator crossing
-    asign = numpy.sign(ss_lat)
-    signchange = ((numpy.roll(asign, 1) - asign) != 0).astype(int)
-    signchange[0] = 0
-    print len(signchange), signchange
-    locs = numpy.where(signchange == 1)
-    print locs
+    #--detect equator crossing--
+    asign = numpy.sign(ss_lat) #sign of subsat latitude
+    signchange2 = numpy.diff(asign) #sign change delta, should be 1 when ascending, -1 descending
+    print signchange2
+    asc_idxs = numpy.where(signchange2 > 0)[0]
+    des_idxs= numpy.where(signchange2 < 0)[0]
+    print 'asc', asc_idxs
+    print 'des', des_idxs
 
-    #detect ascending node, increment rev number
-    rev_num
-    asc_node_idx = [] #crossing ascending node index
-    for i in locs[0]:
-        print i, ss_lat[i-1], ss_lat[i], numpy.sign(ss_lat[i] - ss_lat[i-1])
-        if numpy.sign(ss_lat[i] - ss_lat[i-1]) > 0: #ascending node
-            rev_num.append(rev_num[-1] + 1)
-            asc_node_idx.append(i)
+    #build rev_num array
+    start_ts
+    for i in asc_idxs:
+        rev_num.append(rev_num[-1] + 1)
+        start = t_vec[i+1].utc_datetime()
+        print rev_num[-1], t_vec[i].utc_datetime(), ss_lat[i]
+
+
+
+
 
     #---- START Figure 1 ----
     xinch = 14
@@ -183,7 +187,7 @@ if __name__ == '__main__':
     ax1.set_title(title)
     #Plot Data
     ax1.plot(sec_vec, ss_lat, linestyle = '-', markersize=1, markeredgewidth=0)
-    for i,asc_idx in enumerate(asc_node_idx):
+    for i,asc_idx in enumerate(asc_idxs):
         ax1.plot(sec_vec[asc_idx], ss_lat[asc_idx], marker = '*', \
                  label=str(rev_num[i+1]), color = 'r', \
                  markersize=10, markeredgewidth=0)
