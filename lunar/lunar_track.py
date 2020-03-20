@@ -43,6 +43,11 @@ def Lunar_Rise_Set(e, gs, t0=None, t1=None):
              'set':set_time,
              'vis':set_time < rise_time}
 
+def Lunar_Illumination(e,t):
+    fi = almanac.fraction_illuminated(e, 'Moon', t)
+    return fi
+
+
 if __name__ == "__main__":
     """ Main entry point to start the service. """
     #--------START Command Line argument parser------------------------------------------------------
@@ -104,13 +109,17 @@ if __name__ == "__main__":
                 astrometric = (e['earth']+gs).at(t).observe(e['moon'])
                 alt, az, d = astrometric.apparent().altaz()
                 t_c = d.km * 1000 / c
-                print(alt.degrees, az.degrees, d.km, time_to_set)
+                lunar_illum = Lunar_Illumination(e, t)
+                #print(alt.degrees, az.degrees, d.km, time_to_set)
                 print("Moon is Visible!")
                 print("  Current Azimuth [deg]: {:3.2f}".format(az.degrees))
                 print("Current Elevation [deg]: {:3.2f}".format(alt.degrees))
                 print("     Current Range [km]: {:3.2f}".format(d.km))
-                print("   1 Way Light Time [s]: {:3.6f}".format(t_c))
+                print("   1 Way Prop Delay [s]: {:3.6f}".format(t_c))
+                print("   2 Way Prop Delay [s]: {:3.6f}".format(t_c*2))
+                print(" Lunar Illumination [%]: {:3.3f}".format(lunar_illum * 100))
                 print("            Time to Set: {:s}".format(str(time_to_set)))
+
                 time.sleep(1)
         except KeyboardInterrupt:
             print('interrupted!')
