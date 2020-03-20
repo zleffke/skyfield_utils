@@ -1,0 +1,15 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude": 610
+  },
+
+  "sim": {
+    "type": 1,
+    "start": "now",
+    "stop": null,
+    "duration": 6
+  }
+}
