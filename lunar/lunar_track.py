@@ -89,7 +89,7 @@ if __name__ == "__main__":
     ts = sf.load.timescale()
     #load almanac
     e = sf.load('de421.bsp')
-    print(e)
+    #print(e)
     #setup ground station
     gs = sf.Topos(latitude_degrees=cfg['gs']['latitude'],
                   longitude_degrees=cfg['gs']['longitude'],
@@ -125,7 +125,10 @@ if __name__ == "__main__":
             print('interrupted!')
     else:
         while True:
-            print('Moon not visible')
+            subprocess.run(["clear"])
+            print('Moon not currently visible')
             t = ts.utc(datetime.datetime.now(datetime.timezone.utc)) #Now
             time_to_rise = (rise_set['rise']-t.utc_datetime())#.total_seconds()
+            print ("Next Moon Rise:", rise_set['rise'])
             print ("Time to Moon Rise:", time_to_rise)
+            time.sleep(1)
