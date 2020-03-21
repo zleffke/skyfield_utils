@@ -85,10 +85,16 @@ if __name__ == "__main__":
         json_data.close()
 
     print (cfg)
+    #set up data path
+    fp_load = '/'.join([cwd, cfg['data_path']])
+    if not os.path.exists(fp_load):
+        print('Skyfield data path doesn\'t exist: {:s}'.format(fp_load))
+        os.makedirs(fp_load)
+    load = sf.Loader(fp_load, verbose=True)
     #load timescale object
-    ts = sf.load.timescale()
+    ts = load.timescale()
     #load almanac
-    e = sf.load('de421.bsp')
+    e = load('de421.bsp')
     #print(e)
     #setup ground station
     gs = sf.Topos(latitude_degrees=cfg['gs']['latitude'],
