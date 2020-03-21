@@ -1,0 +1,16 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude": 610
+  },
+  "data_path":"data",
+  "bsp_file":"wld7983.bsp",
+  "sim": {
+    "type": 1,
+    "start": "now",
+    "stop": null,
+    "duration": 6
+  }
+}
