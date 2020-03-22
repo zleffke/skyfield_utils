@@ -1,0 +1,27 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude": 610
+  },
+  "data_path":"data",
+  "data_name":"LRO_test",
+  "body":{
+    "name":"LRO",
+    "origin_center":"500@0",
+    "id_type":"majorbody",
+    "epoch":{
+        "start":"2020-03-21 00:00:00",
+        "stop":"2020-03-21 02:00:00",
+        "step":"1m"
+    },
+    "type":"vectors"
+  },
+  "sim": {
+    "type": 1,
+    "start": "now",
+    "stop": null,
+    "duration": 6
+  }
+}

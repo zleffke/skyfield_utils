@@ -106,35 +106,38 @@ if __name__ == "__main__":
     rise_set = Lunar_Rise_Set(e,gs)
     #print (rise_set)
 
-    if rise_set['vis']:
-        try:
-            while True:
-                subprocess.run(["clear"])
-                t = ts.utc(datetime.datetime.now(datetime.timezone.utc)) #Now
-                time_to_set = (rise_set['set']-t.utc_datetime())#.total_seconds()
-                astrometric = (e['earth']+gs).at(t).observe(e['moon'])
-                alt, az, d = astrometric.apparent().altaz()
-                t_c = d.km * 1000 / c
-                lunar_illum = Lunar_Illumination(e, t)
-                #print(alt.degrees, az.degrees, d.km, time_to_set)
-                print("Moon is Visible!")
-                print("  Current Azimuth [deg]: {:3.2f}".format(az.degrees))
-                print("Current Elevation [deg]: {:3.2f}".format(alt.degrees))
-                print("     Current Range [km]: {:3.2f}".format(d.km))
-                print("   1 Way Prop Delay [s]: {:3.6f}".format(t_c))
-                print("   2 Way Prop Delay [s]: {:3.6f}".format(t_c*2))
-                print(" Lunar Illumination [%]: {:3.3f}".format(lunar_illum * 100))
-                print("            Time to Set: {:s}".format(str(time_to_set)))
-
-                time.sleep(1)
-        except KeyboardInterrupt:
-            print('interrupted!')
-    else:
+    #if rise_set['vis']:
+    try:
         while True:
             subprocess.run(["clear"])
-            print('Moon not currently visible')
             t = ts.utc(datetime.datetime.now(datetime.timezone.utc)) #Now
+            time_to_set = (rise_set['set']-t.utc_datetime())#.total_seconds()
             time_to_rise = (rise_set['rise']-t.utc_datetime())#.total_seconds()
-            print ("Next Moon Rise:", rise_set['rise'])
-            print ("Time to Moon Rise:", time_to_rise)
+            astrometric = (e['earth']+gs).at(t).observe(e['moon'])
+            alt, az, d = astrometric.apparent().altaz()
+            t_c = d.km * 1000 / c
+            lunar_illum = Lunar_Illumination(e, t)
+            #print(alt.degrees, az.degrees, d.km, time_to_set)
+            if rise_set['vis']: print("Moon is Visible!")
+            else: print("Moon is below horizon")
+            print("  Current Azimuth [deg]: {:3.2f}".format(az.degrees))
+            print("Current Elevation [deg]: {:3.2f}".format(alt.degrees))
+            print("     Current Range [km]: {:3.2f}".format(d.km))
+            print("   1 Way Prop Delay [s]: {:3.6f}".format(t_c))
+            print("   2 Way Prop Delay [s]: {:3.6f}".format(t_c*2))
+            print(" Lunar Illumination [%]: {:3.3f}".format(lunar_illum * 100))
+            print("      Time to Moon Rise:", time_to_rise)
+            print("            Time to Set: {:s}".format(str(time_to_set)))
+
             time.sleep(1)
+    except KeyboardInterrupt:
+        print('interrupted!')
+    # else:
+    #     while True:
+    #         subprocess.run(["clear"])
+    #         print('Moon not currently visible')
+    #         t = ts.utc(datetime.datetime.now(datetime.timezone.utc)) #Now
+    #         time_to_rise = (rise_set['rise']-t.utc_datetime())#.total_seconds()
+    #         print ("Next Moon Rise:", rise_set['rise'])
+    #         print ("Time to Moon Rise:", time_to_rise)
+    #         time.sleep(1)
